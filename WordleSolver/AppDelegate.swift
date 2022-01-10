@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  WordleSolver
-//
-//  Created by Hung Truong on 1/6/22.
-//
-
 import Cocoa
 
 @main
