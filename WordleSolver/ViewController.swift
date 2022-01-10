@@ -20,7 +20,7 @@ class ViewController: NSViewController, WKUIDelegate, WKNavigationDelegate {
             return
         }
         let wordsArray = words.split(separator: "\n").map { String($0) }
-        self.guesser = WordGuesser(words: wordsArray, optimize: true)
+        self.guesser = WordGuesser(words: wordsArray, optimize: false)
         
         webView = WKWebView(frame: NSRect(x: 0, y: 0, width: 600, height: 1000))
         webView.uiDelegate = self
@@ -57,11 +57,10 @@ class ViewController: NSViewController, WKUIDelegate, WKNavigationDelegate {
     }
     
     func startLoop() async {
-        
         guessWord(guesser.giveGuess())
-        guessedWords += 1
         sleep(2)
-        let results = await getResults(guessedWords-1)
+        let results = await getResults(guessedWords)
+        guessedWords += 1
         print(results)
         
         if results.allSatisfy({ $0.type == .correct }) {
@@ -70,7 +69,6 @@ class ViewController: NSViewController, WKUIDelegate, WKNavigationDelegate {
             guesser.handleResults(results)
             await startLoop()
         }
-        
     }
     
     func guessWord(_ word: String) {
